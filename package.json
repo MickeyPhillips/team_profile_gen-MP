@@ -1,0 +1,25 @@
+{
+  "name": "team_profile_gen-mp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MickeyPhillips/team_profile_gen-MP.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MickeyPhillips/team_profile_gen-MP/issues"
+  },
+  "homepage": "https://github.com/MickeyPhillips/team_profile_gen-MP#readme",
+  "dependencies": {
+    "inquirer": "^8.2.0"
+  },
+  "devDependencies": {
+    "jest": "^27.2.5"
+  }
+}
