@@ -16,5 +16,5 @@ test('checks for officenumber', () => {
     
     employee.officeNumber = 'Pizza';
 
-    expect(employee.getSchool()).toBeFalsy();
+    expect(employee.getOfficeNumber()).toBeFalsy();
 })
