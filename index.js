@@ -40,15 +40,19 @@ const managerQ = [
         }
     },
     {
-        type: 'number',
+        type: 'input',
         name: 'id',
         message: 'Employee Id: ',
         validate: idInput => {
-            if (idInput) {
+            // I did it this way b/c when i used type: 'number' it wouldnt let me enter anything after a incorrect input
+            // Also when I tried using typeof Number(idInput == 'number') it would still return number typeof for words
+            if (Number(idInput) % 1 == 0) {
+                
                 return true
             }
             else {
                 console.log('Please enter employee id')
+                return false
             }
         }
     },
@@ -67,11 +71,11 @@ const managerQ = [
         }
     },
     {
-        type: 'number',
+        type: 'input',
         name: 'officeNumber',
         message: 'Office Number: ',
         validate: numInput => {
-            if (numInput) {
+            if (Number(numInput) % 1 == 0) {
                 return true
             }
             else {
@@ -102,11 +106,13 @@ const engineerQ = [
         name: 'id',
         message: 'Employee Id: ',
         validate: idInput => {
-            if (idInput) {
+            if (Number(idInput) % 1 == 0) {
+                
                 return true
             }
             else {
                 console.log('Please enter employee id')
+                return false
             }
         }
     },
@@ -167,11 +173,13 @@ const internQ = [
         name: 'id',
         message: 'Employee Id: ',
         validate: idInput => {
-            if (idInput) {
+            if (Number(idInput) % 1 == 0) {
+                
                 return true
             }
             else {
                 console.log('Please enter employee id')
+                return false
             }
         }
     },
@@ -211,13 +219,23 @@ const internQ = [
     }
 ]
 
-const prompt = (employees) => {
-    inquirer.prompt(managerQ)
-        .then(answers => {
-            const manager = new Manager(answers.name, answers.id, answers.email, answers.numInput)
-            employees.push(manager)
-            console.log(answers)
-        })
+const prompt = employees => {
+    if(employees.length === 0) {
+        return inquirer.prompt(managerQ)
+            .then(answers => {
+                answers = new Manager(answers.name, answers.id, answers.email, answers.officeNumber)
+                employees.push(answers)
+                console.log(answers)
+                return prompt(employees)
+            })
+    }
+    else {
+        console.log('New Member')
+        return inquirer.prompt(roleQ)
+            .then(answers => {
+                console.log(answers)
+            })
+    }
 }
 
 const init = () => {
