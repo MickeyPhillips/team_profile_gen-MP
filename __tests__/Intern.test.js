@@ -1,20 +1,21 @@
 const Intern = require('../lib/Intern.js');
 
 test('creates new Intern', () => {
-    const employee = new Intern('Michael Scott', 1, 'Michael@fakemail.com');
+    const employee = new Intern('Michael Scott', 1, 'Michael@fakemail.com', 'University of Texas at Austin');
 
-    expect(employee.name).toBe('Michael Scott');
+    expect(employee.name).toEqual(expect.any(String));
     expect(employee.id).toEqual(expect.any(Number));
-    expect(employee.email).toBe('Michael@fakemail.com');
-    expect(employee.getRole()).toEqual('Intern');
+    expect(employee.email).toEqual(expect.any(String));
+    expect(employee.school).toEqual(expect.any(String));
 })
 
 test('checks if intern', () => {
-    const employee = new Intern('Michael Scott', 1, 'Michael@fakemail.com', 'Intern', 'State');
+    const employee = new Intern('Michael Scott', 1, 'Michael@fakemail.com', 'University of Texas at Austin');
 
-    expect(employee.school).toEqual(expect.any(String));
-    
-    employee.school = 80;
 
-    expect(employee.getSchool()).toBeFalsy();
+    expect(employee.getName()).toBe(employee.name);
+    expect(employee.getId()).toBe(employee.id);
+    expect(employee.getEmail()).toBe(employee.email);
+    expect(employee.getSchool()).toBe(employee.school);
+    expect(employee.getRole()).toBe('Intern');
 })
