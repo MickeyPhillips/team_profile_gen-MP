@@ -40,6 +40,19 @@ const managerQ = [
         }
     },
     {
+        type: 'number',
+        name: 'id',
+        message: 'Employee Id: ',
+        validate: idInput => {
+            if (idInput) {
+                return true
+            }
+            else {
+                console.log('Please enter employee id')
+            }
+        }
+    },
+    {
         type: 'input',
         name: 'email',
         message: 'Email: ',
@@ -55,14 +68,14 @@ const managerQ = [
     },
     {
         type: 'number',
-        name: 'officeNum',
+        name: 'officeNumber',
         message: 'Office Number: ',
         validate: numInput => {
             if (numInput) {
                 return true
             }
             else {
-                console.log('Please enter a office number')
+                console.log('Please enter office number')
                 return false
             }
         }
@@ -81,6 +94,19 @@ const engineerQ = [
             else {
                 console.log('Please enter a name')
                 return false
+            }
+        }
+    },
+    {
+        type: 'number',
+        name: 'id',
+        message: 'Employee Id: ',
+        validate: idInput => {
+            if (idInput) {
+                return true
+            }
+            else {
+                console.log('Please enter employee id')
             }
         }
     },
@@ -137,6 +163,19 @@ const internQ = [
         }
     },
     {
+        type: 'number',
+        name: 'id',
+        message: 'Employee Id: ',
+        validate: idInput => {
+            if (idInput) {
+                return true
+            }
+            else {
+                console.log('Please enter employee id')
+            }
+        }
+    },
+    {
         type: 'input',
         name: 'email',
         message: 'Email: ',
@@ -172,12 +211,20 @@ const internQ = [
     }
 ]
 
-const prompt = () => {
+const prompt = (employees) => {
     inquirer.prompt(managerQ)
-        .then(answers => {console.log(answers)})
+        .then(answers => {
+            const manager = new Manager(answers.name, answers.id, answers.email, answers.numInput)
+            employees.push(manager)
+            console.log(answers)
+        })
 }
 
-prompt();
+const init = () => {
+    const employees = []
+    prompt(employees)
+}
+init();
 
 
 
