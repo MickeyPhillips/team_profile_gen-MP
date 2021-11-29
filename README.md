@@ -22,3 +22,9 @@ Usage video:
 
 </div>
 
+## Tests
+<div  align="center">
+
+<img  src="./readme_assets/tests.gif"  width="600px">
+
+</div>
