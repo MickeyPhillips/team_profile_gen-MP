@@ -1,6 +1,6 @@
 const inquirer = require('inquirer')
 const template = require('./src/page-template')
-const writeFile = require('./src/generate-page')
+const writeFile = require('./src/page-write')
 // Models
 const Engineer = require('./lib/Engineer')
 const Intern = require('./lib/Intern')
@@ -45,8 +45,8 @@ const managerQ = [
         message: 'Employee Id: ',
         validate: idInput => {
             // I did it this way b/c when i used type: 'number' it wouldnt let me enter anything after a incorrect input
-            // Also when I tried using typeof Number(idInput == 'number') it would still return number typeof for words
-            if (Number(idInput) % 1 == 0) {
+            
+            if (idInput % 1 == 0) {
                 
                 return true
             }
@@ -75,7 +75,7 @@ const managerQ = [
         name: 'officeNumber',
         message: 'Office Number: ',
         validate: numInput => {
-            if (Number(numInput) % 1 == 0) {
+            if (numInput % 1 == 0) {
                 return true
             }
             else {
@@ -102,11 +102,11 @@ const engineerQ = [
         }
     },
     {
-        type: 'number',
+        type: 'input',
         name: 'id',
         message: 'Employee Id: ',
         validate: idInput => {
-            if (Number(idInput) % 1 == 0) {
+            if (idInput % 1 == 0) {
                 
                 return true
             }
@@ -169,11 +169,11 @@ const internQ = [
         }
     },
     {
-        type: 'number',
+        type: 'input',
         name: 'id',
         message: 'Employee Id: ',
         validate: idInput => {
-            if (Number(idInput) % 1 == 0) {
+            if (idInput % 1 == 0) {
                 
                 return true
             }
@@ -219,30 +219,67 @@ const internQ = [
     }
 ]
 
-const prompt = employees => {
-    if(employees.length === 0) {
-        return inquirer.prompt(managerQ)
-            .then(answers => {
-                answers = new Manager(answers.name, answers.id, answers.email, answers.officeNumber)
-                employees.push(answers)
-                console.log(answers)
-                return prompt(employees)
-            })
-    }
-    else {
-        console.log('New Member')
-        return inquirer.prompt(roleQ)
-            .then(answers => {
-                console.log(answers)
-            })
-    }
+const employeePrompt = employees => {
+        if(employees.length === 0) {
+            return inquirer.prompt(managerQ)
+                .then(answers => {
+                    answers = new Manager(answers.name, answers.id, answers.email, answers.officeNumber)
+                    employees.push(answers)
+                    console.log(answers)
+                    return employeePrompt(employees)
+                })
+        }
+        else {
+            console.log('New Member')
+            return inquirer.prompt(roleQ)
+                .then(res => {
+                    console.log(res)
+                    switch(res.role.toString()) {
+                        case 'Engineer':
+                            return inquirer.prompt(engineerQ)
+                                .then (answers => {
+                                    answers.name = new Engineer(answers.name, answers.id, answers.email, answers.github)
+                                    employees.push(answers.name)
+                                    if (answers.addMember) {
+                                        return employeePrompt(employees)
+                                    }
+                                    else return employees
+                                })
+                            
+                        
+                        case 'Intern':
+                            return inquirer.prompt(internQ)
+                                .then(answers => {
+                                    answers.name = new Intern(answers.name, answers.id, answers.email, answers.school)
+                                    employees.push(answers.name)
+                                    if (answers.addMember) {
+                                        return employeePrompt(employees)
+                                    }
+                                    else return employees
+                                })
+                            
+                        
+                    }
+                })
+                .then(data => {
+                    return template(data)
+                })
+                .then(page => {
+                    return writeFile(page)
+                })
+                .catch(err => console.log(err))
+        }
 }
+
 
 const init = () => {
     const employees = []
-    prompt(employees)
+    employeePrompt(employees)
 }
 init();
+
+
+
 
 
 
