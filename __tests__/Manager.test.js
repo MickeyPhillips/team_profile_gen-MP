@@ -1,20 +1,20 @@
 const Manager = require('../lib/Manager.js');
 
 test('creates new Manager', () => {
-    const employee = new Manager('Michael Scott', 1, 'Michael@fakemail.com');
+    const employee = new Manager('Michael Scott', 1, 'Michael@fakemail.com', 1);
 
-    expect(employee.name).toBe('Michael Scott');
+    expect(employee.name).toEqual(expect.any(String));
     expect(employee.id).toEqual(expect.any(Number));
-    expect(employee.email).toBe('Michael@fakemail.com');
-    expect(employee.getRole()).toEqual('Manager');
+    expect(employee.email).toEqual(expect.any(String));
+    expect(employee.officeNumber).toEqual(expect.any(Number));
 })
 
 test('checks for officenumber', () => {
-    const employee = new Manager('Michael Scott', 1, 'Michael@fakemail.com', 'Manager', 1);
+    const employee = new Manager('Michael Scott', 1, 'Michael@fakemail.com', 1);
 
-    expect(employee.officeNumber).toEqual(expect.any(Number));
-    
-    employee.officeNumber = 'Pizza';
-
-    expect(employee.getSchool()).toBeFalsy();
+    expect(employee.getName()).toBe(employee.name);
+    expect(employee.getId()).toBe(employee.id);
+    expect(employee.getEmail()).toBe(employee.email);
+    expect(employee.getOfficeNumber()).toBe(employee.officeNumber);
+    expect(employee.getRole()).toBe('Manager');
 })
